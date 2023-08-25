@@ -2,6 +2,12 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const { Circle, Triangle, Square } = require("./lib/shapes");
 
+const examples = {
+    Circle: "examples/circle.svg",
+    Triangle: "examples/triangle.svg",
+    Square: "examples/square.svg"
+};
+
 async function generateLogo() {
     const shapeChoices = ["Circle", "Triangle", "Square"];
     const userInput = await inquirer.prompt([
@@ -26,8 +32,13 @@ async function generateLogo() {
 </svg>
 `;
 
-    fs.writeFileSync("logo.svg", svgContent);
-    console.log("Generated logo.svg");
+    const exampleFilePath = examples[userInput.shapeChoice];
+    const logoFilePath = "logo.svg";
+    fs.writeFileSync(exampleFilePath, svgContent);
+    fs.writeFileSync(logoFilePath, svgContent);
+
+    console.log(`Generated ${userInput.shapeChoice} example: ${exampleFilePath}`);
+    console.log(`Generated logo: ${logoFilePath}`);
 }
 
 generateLogo();
